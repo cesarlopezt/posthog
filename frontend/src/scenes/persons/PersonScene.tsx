@@ -356,7 +356,9 @@ export function PersonScene(): JSX.Element | null {
                 ]}
             />
 
-            {splitMergeModalShown && person && <MergeSplitPerson person={person} />}
+            {splitMergeModalShown && person && (
+                <MergeSplitPerson person={person} onClose={() => setSplitMergeModalShown(false)} />
+            )}
         </SceneContent>
     )
 }

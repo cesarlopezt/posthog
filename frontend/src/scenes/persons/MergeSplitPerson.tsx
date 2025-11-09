@@ -9,10 +9,10 @@ import { PersonType } from '~/types'
 
 import { mergeSplitPersonLogic } from './mergeSplitPersonLogic'
 
-export function MergeSplitPerson({ person }: { person: PersonType }): JSX.Element {
+export function MergeSplitPerson({ person, onClose }: { person: PersonType; onClose: () => void }): JSX.Element {
     const logicProps = { person }
     const { executedLoading } = useValues(mergeSplitPersonLogic(logicProps))
-    const { execute, cancel } = useActions(mergeSplitPersonLogic(logicProps))
+    const { execute } = useActions(mergeSplitPersonLogic(logicProps))
 
     return (
         <LemonModal
@@ -21,7 +21,7 @@ export function MergeSplitPerson({ person }: { person: PersonType }): JSX.Elemen
             title="Split persons"
             footer={
                 <div className="flex items-center gap-2">
-                    <LemonButton onClick={cancel} disabledReason={executedLoading && 'Splitting the user'}>
+                    <LemonButton onClick={onClose} disabledReason={executedLoading && 'Splitting the user'}>
                         Cancel
                     </LemonButton>
                     <LemonButton type="primary" onClick={execute} loading={executedLoading}>
@@ -29,7 +29,7 @@ export function MergeSplitPerson({ person }: { person: PersonType }): JSX.Elemen
                     </LemonButton>
                 </div>
             }
-            onClose={cancel}
+            onClose={onClose}
         >
             {person.distinct_ids.length < 2 ? (
                 'Only persons with more than two distinct IDs can be split.'
